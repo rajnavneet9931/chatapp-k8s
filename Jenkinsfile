@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/iemafzalhassan/full-stack_chatApp.git'
+                    url: 'https://github.com/rajnavneet9931/chatapp-k8s.git'
             }
         }
 
