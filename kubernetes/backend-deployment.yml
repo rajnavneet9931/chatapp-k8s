@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: chat-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - name: chatapp-backend
+          image: rajnavneet9931/chatapp-backend:latest
+          ports:
+            - containerPort: 5001
+
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://root:root@mongodb:27017/chatapp?authSource=admin"
+
+            - name: PORT
+              value: "5001"
+
+            - name: NODE_ENV
+              value: "development"
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: jwt-secret
+
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: cloudinary-cloud-name
+
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: cloudinary-api-key
+
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: cloudinary-api-secret
+
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
