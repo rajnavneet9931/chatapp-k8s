@@ -1,243 +1,150 @@
-[![Fork Button](https://img.shields.io/github/forks/iemafzalhassan/full-stack_chatApp?style=social)](https://github.com/iemafzalhassan/full-stack_chatApp/fork)
+🚀 Full Stack Chat Application (Kubernetes + DevOps)
+A real-time full-stack chat application deployed using Docker and Kubernetes (Kind), demonstrating production-like DevOps practices.
 
+🧰 Tech Stack
 
-# Real-Time Chat Application
 
+Frontend: React + Nginx
 
-Welcome to the **Full Stack Realtime Chat App** project, where we're building a scalable and secure real-time chat experience using the latest technologies. Whether you're a seasoned developer or a beginner, we invite you to contribute and be a part of this exciting journey!
 
-## Table of Contents
+Backend: Node.js + Express
 
 
-* [Introduction](#introduction)
-* [Features](#features)
-* [Tech Stack](#tech-stack)
-* [Getting Started](#getting-started)
-* [Building the Backend](#building-the-backend)
-* [Running the Application](#running-the-application)
-* [Contributing](#contributing)
-* [Future Plans](#future-plans)
-* [License](#license)
+Database: MongoDB
 
-## 📝 Introduction
 
-This project aims to provide a real-time chat experience that's both scalable and secure. With a focus on modern technologies, we're building an application that's easy to use and maintain.
+Containerization: Docker
 
-## ✨ Features
 
+Orchestration: Kubernetes (Kind)
 
-* **Real-time Messaging**: Send and receive messages instantly using Socket.io 
-* **User Authentication & Authorization**: Securely manage user access with JWT 
-* **Scalable & Secure Architecture**: Built to handle large volumes of traffic and data 
-* **Modern UI Design**: A user-friendly interface crafted with React and TailwindCSS 
-* **Profile Management**: Users can upload and update their profile pictures 
-* **Online Status**: View real-time online/offline status of users 
 
+Media Storage: Cloudinary
 
-## 🛠️ Tech Stack
 
+Web Server: NGINX
 
-* **Backend:** Node.js, Express, MongoDB, Socket.io
-* **Frontend:** React, TailwindCSS
-* **Containerization:** Docker
-* **Orchestration:** Kubernetes (planned)
-* **Web Server:** Nginx
-* **State Management:** Zustand
-* **Authentication:** JWT
-* **Styling Components:** DaisyUI
 
 
-### 🔧 Prerequisites
+⚙️ Features
 
 
-* **[Node.js](https://nodejs.org/)** (v14 or higher)
-* **[Docker](https://www.docker.com/get-started)** (for containerizing the app)
-* **[Git](https://git-scm.com/downloads)** (to clone the repository)
+Real-time chat using Socket.IO
 
 
-### 📝 Environment Configuration
+User authentication with JWT
 
-Create a `.env` file in the root directory with the following configuration:
 
-```env
-# Database Configuration
-MONGODB_URI=mongodb://root:admin@mongo:27017/chatApp?authSource=admin&retryWrites=true&w=majority
+Profile image upload (Cloudinary)
 
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_key
 
-# Server Configuration
-PORT=5001
-NODE_ENV=production
-```
+Dockerized services (frontend, backend, MongoDB)
 
-> **Note:** 
-> - Replace `your_jwt_secret_key` with a strong secret key
-> - For local development without Docker, change `MONGODB_URI` to `mongodb://localhost:27017/chatApp`
-> - You can use command ```echo "Text what you want" | base64
 
-### Clone the Repository
+Kubernetes deployments and services
 
-```bash
-git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
-```
 
-🏗️ Build and Run the Application
+Persistent storage using PV & PVC
 
-Follow these steps to build and run the application:
 
-1. Build & Run the Containers:
+Secrets management for sensitive data
 
-```bash
-cd full-stack_chatApp
-```
-```bash
-docker-compose up -d --build
-```
 
-2. Access the application in your browser:
+Nginx reverse proxy
 
-```
-http://localhost
-```
----
 
-## 🛠️ Getting Started
+Fixed CSP for external image loading
 
-Follow these simple steps to get the project up and running on your local Host using docker.
 
-```bash
-git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
-```
+Horizontal Pod Autoscaler (HPA)
 
-```bash
-cd full-stack_chatApp
-```
-## Create a Docker network:
 
-```bash
-docker network create full-stack
-```
+Vertical Pod Autoscaler (VPA)
 
-## 🛠️ Building the Frontend
 
-```bash
-cd frontend
-```
+Debugged real-world issues (CrashLoopBackOff, CSP, env errors, Mongo auth)
 
-```bash
-docker build -t full-stack_frontend .
-```
 
-### Run the Frontend container:
 
-```bash
-docker run -d --network=full-stack  -p 5173:5173 --name frontend full-stack_frontend:latest
-```
-#### The frontend will now be accessible on port 5173.
+🐳 Docker Setup
+Build Images
+docker build -t chatapp-backend ./backenddocker build -t chatapp-frontend ./frontend
+Run with Docker Compose
+docker-compose up --build
+Access
+Frontend → http://localhost:3000  Backend → http://localhost:5001  MongoDB → localhost:27017  
 
+☸️ Kubernetes Setup (Kind)
+Create Cluster
+kind create cluster --config kind-config.yaml
+Deploy Application
+kubectl apply -f k8s/
+Access Application
+http://localhost:8081
 
-## Run the MongoDB Container:
+🔐 Environment Variables
+Backend requires:
+MONGODB_URIPORTNODE_ENVJWT_SECRETCLOUDINARY_CLOUD_NAMECLOUDINARY_API_KEYCLOUDINARY_API_SECRET
 
-```bash
-docker run -d -p 27017:27017 --name mongo mongo:latest
-```
----
+📦 Kubernetes Components
 
-## 🛠️ Building the Backend
 
-```bash
-cd backend
-```
+Deployments (Frontend, Backend, MongoDB)
 
-### Build the Backend image:
 
-```bash
-docker build -t full-stack_backend .
-```
+Services (ClusterIP / NodePort)
 
-### Run the Backend container:
 
-```bash
-docker run -d --network=full-stack --add-host=host.docker.internal:host-gateway -p 5001:5001 --env-file .env full-stack_backend
-```
-#### This will build and run the backend container, exposing the backendAPI on port 5001.
+PersistentVolume & PersistentVolumeClaim
 
-`Backend API: http://localhost:5001`
 
-### To Verify the conncetion between backend and databse:
-```bash
-docker-compose logs -f
-```
+Secrets
 
-### Once the backend and frontend containers are running, you can access the application in your browser:
 
-`Frontend: http://localhost`
+Kind cluster config
 
 
-You can now interact with the real-time chat app and start messaging!
 
----
+⚡ DevOps Highlights
 
 
+Infrastructure as Code (YAML)
 
-### 🤝 Contributing
 
+Containerized microservices
 
-We welcome contributions from DevOps & Developer of all skill levels! Here's how you can contribute:
 
-**Report bugs:** If you encounter any bugs or issues, please open an issue with detailed information.
-**Suggest features:** Have an idea for a new feature? Open an issue to discuss it with the community.
-**Submit pull requests:** If you have a fix or a feature you'd like to contribute, submit a pull request. Ensure your changes pass any linting or tests, if applicable.
+Service discovery and networking
 
-### 🌐 Join the Community
 
-We invite you to join our community of developers and contributors. Let's work together to build an amazing real-time chat application!
+Secure secret handling
 
-* **Star this repository** to show your support
-* **Fork this repository** to contribute to the project
-* **Open an issue** to report bugs or suggest features
-* **Submit a pull request** to contribute code changes
 
-## 🔮 Future Plans
+Real production debugging scenarios
 
 
-This project is evolving, and here are a few exciting things on the horizon:
+Scalable architecture with HPA & VPA
 
-* [ ] **CI/CD Pipelines:** Implement Continuous Integration and Continuous Deployment pipelines to automate testing and deployment.
-* [ ] **Kubernetes (K8s):** Add Kubernetes manifests for container orchestration to deploy the app on cloud platforms like AWS, GCP, or Azure.
-* [ ] **Feature Expansion:** Add more features like group chats, media sharing, and user status updates.
-* **Stay tuned for updates as we continue to improve and expand this project!**
 
----
 
-## 📚 Project Snapshots:
+🚀 Future Improvements
 
-![Settings](frontend/public/settings.png)
 
-![chat](frontend/public/chat.png)
+Ingress Controller
 
-![logout](/frontend/public/logout.png)
 
-![Login](/frontend/public/login.png)
+CI/CD (GitHub Actions / Jenkins)
 
 
+Monitoring (Prometheus + Grafana)
 
-## 📜 License
 
+Logging (ELK Stack)
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
 
 
+📜 License
+This project is licensed under the MIT License.
 
-
-
-
-
-
-
-
-
-
-
-
+👨‍💻 Author
+Navneet Chauhan
