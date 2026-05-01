@@ -1,0 +1,7 @@
+USER-SUPPLIED VALUES:
+grafana:
+  service:
+    type: NodePort
+prometheus:
+  service:
+    type: NodePort
